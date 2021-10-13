@@ -14,7 +14,7 @@ QString const TURN_COOLER_OFF = "M107";
 
 QString const REPORT_TEMPERATURE = "M105";
 QString const EXTRUSION_CMD{"G1 E"};
-QString const HOTEND_MELT_PLA{"M109 S210"};
+QString const HOTEND_MELT_PLA {"M109 S200"};
 QString const HOTEND_COOLDOWN{"M104 S10"};
 QString const POLL_TEMPERATURE_CMD{"M155 S4"};
 
@@ -27,20 +27,31 @@ QString const FRONT_LEFT_POINT{"G1 X-50 Y-30 Z5 F3000"};
 QString const FRONT_RIGHT_POINT{"G1 X50 Y-30 Z5 F3000"};
 QString const BACK_POINT{"G1 X0 Y50 F3000"};
 QString const CENTER_POINT{"G1 X0 Y0 Z10 F3000"};
-QString const UNLOAD_POINT{"G1 X0 Y-71 Z10 F1000"};
+QString const UNLOAD_POINT {"G1 X0 Y-71 Z100 F1000"};
 
 constexpr int REPORT_TEMPERATURE_TIMEOUT = 8000;
 
-enum class tablePoint_t { FRONT_LEFT, FRONT_RIGHT, BACK, CENTER, TOUCH, HOVER, UNLOAD, NONE };
+enum class tablePoint_t {
+    FRONT_LEFT,
+    FRONT_RIGHT,
+    BACK,
+    CENTER,
+    TOUCH,
+    HOVER,
+    UNLOAD,
+    CUSTOM,
+    NONE
+};
 
-std::map<tablePoint_t, QString> POINT_LUT{{tablePoint_t::FRONT_LEFT, FRONT_LEFT_POINT},
-                                          {tablePoint_t::FRONT_RIGHT, FRONT_RIGHT_POINT},
-                                          {tablePoint_t::BACK, BACK_POINT},
-                                          {tablePoint_t::CENTER, CENTER_POINT},
-                                          {tablePoint_t::TOUCH, TOUCH_PLATE},
-                                          {tablePoint_t::HOVER, HOVER_IN_PLACE},
-                                          {tablePoint_t::UNLOAD, UNLOAD_POINT},
-                                          {tablePoint_t::NONE, ""}};
+std::map<tablePoint_t, QString> POINT_LUT {{tablePoint_t::FRONT_LEFT, FRONT_LEFT_POINT},
+                                           {tablePoint_t::FRONT_RIGHT, FRONT_RIGHT_POINT},
+                                           {tablePoint_t::BACK, BACK_POINT},
+                                           {tablePoint_t::CENTER, CENTER_POINT},
+                                           {tablePoint_t::TOUCH, TOUCH_PLATE},
+                                           {tablePoint_t::HOVER, HOVER_IN_PLACE},
+                                           {tablePoint_t::UNLOAD, UNLOAD_POINT},
+                                           {tablePoint_t::CUSTOM, ""},
+                                           {tablePoint_t::NONE, ""}};
 
 struct movingState_t
 {
@@ -64,9 +75,7 @@ struct unloadState_t
 {
     explicit unloadState_t (stateMachine_t &sm_)
     {
-        movingState_t (tablePoint_t::HOVER, sm_);
         movingState_t (tablePoint_t::UNLOAD, sm_);
-        movingState_t (tablePoint_t::TOUCH, sm_);
         emit sm_.onNewCommand (POLL_TEMPERATURE_CMD);
         emit sm_.onNewCommand (HOTEND_MELT_PLA);
     }
@@ -239,4 +248,12 @@ void stateMachine_t::coolDownExtruder (bool state_)
 void stateMachine_t::reportTemperature ()
 {
     emit onNewCommand (REPORT_TEMPERATURE);
+}
+
+void
+stateMachine_t::moveToCustom (int x_, int y_, int z_)
+{
+    m_d->currentState = std::visit (moveToPoint_t {tablePoint_t::CUSTOM, *this}, m_d->currentState);
+    emit onNewCommand (ABS_POS_MOVES);
+    emit onNewCommand (QString ("G1 X%1 Y%2 Z%3 F3000").arg (x_).arg (y_).arg (z_));
 }

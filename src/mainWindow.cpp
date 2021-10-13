@@ -14,8 +14,7 @@ mainWindow_t::mainWindow_t(QWidget *parent_) :
 {
     m_ui->setupUi(this);
 
-    m_serialManager = new serialManager_t(m_ui->managerContainer);
-    m_serialManager->updateSerialsList();
+    m_serialManager = new serialManager_t (m_ui->managerContainer);
 
     connect (m_serialManager, &serialManager_t::onNewSerialData,
             &m_alta, &altaPrinter_t::handleSerialData);
@@ -74,6 +73,13 @@ mainWindow_t::mainWindow_t(QWidget *parent_) :
              &altaPrinter_t::onNewTemperatureValue,
              this,
              &mainWindow_t::handleTemperatureUpdate);
+
+    connect (m_ui->goToButton, &QPushButton::clicked, this, [this] (bool clicked_) {
+        Q_UNUSED (clicked_);
+        m_alta.goToCoordinates (m_ui->xSpinBox->value (),
+                                m_ui->ySpinBox->value (),
+                                m_ui->zSpinBox->value ());
+    });
 }
 
 mainWindow_t::~mainWindow_t()

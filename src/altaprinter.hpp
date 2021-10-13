@@ -30,6 +30,7 @@ public:
     void handleMoveToDispenser ();
     void handleLoadFilament (float length_);
     void handleUnloadFilament (float length_);
+    void goToCoordinates (int x_, int y_, int z_);
 
 signals:
     void onNewCommand (QByteArray command_) const;

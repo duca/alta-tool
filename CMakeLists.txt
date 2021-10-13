@@ -35,7 +35,8 @@ if (UNIX)
 list(APPEND CMAKE_MODULE_PATH "/opt/qt5/lib64/cmake/")
 endif (UNIX)
 
-find_package(QT NAMES Qt5 COMPONENTS Widgets LinguistTools SerialPort REQUIRED)
+find_package(QT NAMES Qt5
+    COMPONENTS Widgets LinguistTools SerialPort REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets LinguistTools SerialPort REQUIRED)
 
 find_package(Git QUIET)

@@ -5,6 +5,11 @@
 
 #include <string>
 
+namespace {
+auto const RADIUS = 127;
+auto const HEIGHT = 167;
+} // namespace
+
 altaPrinter_t::~altaPrinter_t () = default;
 
 altaPrinter_t::altaPrinter_t (QObject *parent_) : QObject (parent_)
@@ -78,4 +83,11 @@ void altaPrinter_t::handleLoadFilament (float length_)
 void altaPrinter_t::handleUnloadFilament (float length_)
 {
     m_sm.unloadFilament (length_);
+}
+
+void
+altaPrinter_t::goToCoordinates (int x_, int y_, int z_)
+{
+    if (std::abs (x_) < RADIUS && std::abs (y_) < RADIUS && z_ > 0 && z_ < HEIGHT)
+        m_sm.moveToCustom (x_, y_, z_);
 }

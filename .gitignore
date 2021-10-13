@@ -6,6 +6,9 @@
 *.lo
 *.o
 *.obj
+moc_*
+ui_*
+build/*
 
 # Precompiled Headers
 *.gch
@@ -30,3 +33,7 @@
 *.exe
 *.out
 *.app
+
+.clangd
+CMakeLists.*.user*
+compile_commands.json

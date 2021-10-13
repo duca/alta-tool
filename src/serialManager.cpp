@@ -3,27 +3,38 @@
 
 #include "ui_serialManager.h"
 
-#include <QSerialPortInfo>
 #include <QMap>
+#include <QSerialPortInfo>
 #include <QString>
+#include <QTimer>
 
 #include <string>
 
+#include <chrono>
+using namespace std::chrono_literals;
 
-struct serialManager_t::privateData_t
-{
+namespace {
+auto constexpr HEARTBEAT = 2000ms;
+}
+
+struct serialManager_t::privateData_t {
     Ui::serialManagerWidget_t *ui;
     QMap<QString, serial_t*> serials;
     QString activePort;
+    QTimer timer;
     bool onlyOneActive = true;
 };
 
 serialManager_t::serialManager_t(QWidget *parent_):
     QWidget(parent_),
     m_d (new serialManager_t::privateData_t)
-{
+{    
     m_d->ui = new Ui::serialManagerWidget_t;
-    m_d->ui->setupUi(this);
+    m_d->ui->setupUi (this);
+
+    m_d->timer.setInterval (HEARTBEAT);
+    connect (&m_d->timer, &QTimer::timeout, this, &serialManager_t::updateSerialsList);
+    m_d->timer.start ();
 }
 
 serialManager_t::~serialManager_t()
@@ -33,12 +44,13 @@ serialManager_t::~serialManager_t()
 
 void serialManager_t::updateSerialsList ()
 {
-    std::vector <std::string> names;
     const auto infos = QSerialPortInfo::availablePorts();
 
-    for (auto i = 0; i < infos.size(); i++)
-    {
-        auto name = infos[i].portName();
+    for (auto i = 0; i < infos.size (); i++) {
+        auto name = infos[i].portName ();
+        if (m_d->serials.contains (name))
+            continue;
+
         auto port = new serial_t (name, this);
         port->addToLayout(m_d->ui->mainLayout);
 

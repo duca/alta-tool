@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>727</width>
+    <width>803</width>
     <height>739</height>
    </rect>
   </property>
@@ -27,8 +27,25 @@
        <layout class="QGridLayout" name="gridLayout_3">
         <item row="0" column="1">
          <layout class="QGridLayout" name="gridLayout">
-          <item row="3" column="3">
-           <widget class="QLCDNumber" name="temperatureLCD"/>
+          <item row="1" column="3">
+           <widget class="QPushButton" name="dispenserButton">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string>Dispenser point</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QPushButton" name="frontLeftButton">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string>Front Left</string>
+            </property>
+           </widget>
           </item>
           <item row="5" column="2">
            <widget class="QSpinBox" name="unloadLengthSpin">
@@ -43,6 +60,16 @@
             </property>
             <property name="value">
              <number>500</number>
+            </property>
+           </widget>
+          </item>
+          <item row="10" column="2">
+           <widget class="QSpinBox" name="zSpinBox">
+            <property name="maximum">
+             <number>160</number>
+            </property>
+            <property name="value">
+             <number>120</number>
             </property>
            </widget>
           </item>
@@ -62,43 +89,37 @@
             </property>
            </widget>
           </item>
-          <item row="2" column="2">
-           <widget class="QPushButton" name="backPointButton">
+          <item row="7" column="1" colspan="3">
+           <widget class="Line" name="line">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="9" column="3">
+           <widget class="QPushButton" name="goToButton">
+            <property name="text">
+             <string>Send Coordinates</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <widget class="QPushButton" name="loadButton">
             <property name="enabled">
              <bool>false</bool>
             </property>
             <property name="text">
-             <string>Back</string>
+             <string>Load Filament</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="1">
-           <widget class="QPushButton" name="beginCalibButton">
+          <item row="9" column="1">
+           <widget class="QLabel" name="label_3">
             <property name="text">
-             <string>Initialize</string>
+             <string>Y:</string>
             </property>
-            <property name="checkable">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="1">
-           <widget class="QPushButton" name="unloadButton">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="text">
-             <string>Unload Filament</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="QPushButton" name="frontLeftButton">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="text">
-             <string>Front Left</string>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -115,13 +136,62 @@
             </property>
            </widget>
           </item>
-          <item row="3" column="2">
-           <widget class="QLabel" name="label">
+          <item row="9" column="2">
+           <widget class="QSpinBox" name="ySpinBox">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="minimum">
+             <number>-65</number>
+            </property>
+            <property name="maximum">
+             <number>65</number>
+            </property>
+            <property name="value">
+             <number>0</number>
+            </property>
+           </widget>
+          </item>
+          <item row="8" column="2">
+           <widget class="QSpinBox" name="xSpinBox">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="minimum">
+             <number>-65</number>
+            </property>
+            <property name="maximum">
+             <number>65</number>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="1">
+           <widget class="QPushButton" name="unloadButton">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="text">
-             <string>Extruder Temperature:</string>
+             <string>Unload Filament</string>
+            </property>
+           </widget>
+          </item>
+          <item row="8" column="1">
+           <widget class="QLabel" name="label_2">
+            <property name="text">
+             <string>X:</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="2">
+           <widget class="QPushButton" name="backPointButton">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string>Back</string>
             </property>
            </widget>
           </item>
@@ -132,26 +202,6 @@
             </property>
            </widget>
           </item>
-          <item row="4" column="1">
-           <widget class="QPushButton" name="loadButton">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="text">
-             <string>Load Filament</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="3">
-           <widget class="QPushButton" name="dispenserButton">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="text">
-             <string>Dispenser point</string>
-            </property>
-           </widget>
-          </item>
           <item row="2" column="3">
            <widget class="QPushButton" name="frontRightButton">
             <property name="enabled">
@@ -159,6 +209,52 @@
             </property>
             <property name="text">
              <string>Front Right</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QPushButton" name="beginCalibButton">
+            <property name="text">
+             <string>Initialize</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="10" column="1">
+           <widget class="QLabel" name="label_4">
+            <property name="text">
+             <string>Z:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="1">
+           <widget class="QLabel" name="label">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Extruder Temperature:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="2">
+           <widget class="QLCDNumber" name="temperatureLCD">
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>32</height>
+             </size>
             </property>
            </widget>
           </item>
@@ -193,7 +289,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>727</width>
+     <width>803</width>
      <height>23</height>
     </rect>
    </property>

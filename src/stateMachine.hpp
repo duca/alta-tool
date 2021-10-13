@@ -17,6 +17,7 @@ public:
     void moveToFrontRightPoint ();
     void moveToBackPoint ();
     void moveToDispenser ();
+    void moveToCustom (int x_, int y_, int z_);
     void touchTable ();
     void reset ();
     void loadFilament (float length_ = 0);
